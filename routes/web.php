@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use  App\Http\Controllers\Admin\HomeController;
+use  App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,14 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
+Route::get('/', [App\Http\Controllers\Guest\HomeController::class, 'index'])->name('guest.home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.index');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('projects', ProjectController::class);
