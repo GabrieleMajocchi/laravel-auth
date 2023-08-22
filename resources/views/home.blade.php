@@ -15,6 +15,8 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+
+                    <a href="{{ route('admin.index') }}" class="btn btn-primary d-block">Admin HomePage</a>
                 </div>
             </div>
         </div>
