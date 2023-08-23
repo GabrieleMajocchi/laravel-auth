@@ -76,5 +76,7 @@
             @yield('content')
         </main>
     </div>
+
+    @yield("custom-script-tail")
 </body>
 </html>
