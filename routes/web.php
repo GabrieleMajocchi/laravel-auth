@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use  App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Guest\HomeController as GuestHomeController;
+use  App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use  App\Http\Controllers\ProjectController;
 
 /*
@@ -18,9 +20,9 @@ use  App\Http\Controllers\ProjectController;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\Guest\HomeController::class, 'index'])->name('guest.home');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.index');
+Route::get('/', [GuestHomeController::class, 'index'])->name('guest.home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/admin/home', [AdminHomeController::class, 'index'])->name('admin.index');
 Route::get('/admin/projects/deleted', [ProjectController::class, 'trashed'] )->name('projects.trashed');
 Route::post('/admin/projects/deleted/{project}', [ProjectController::class, 'restore'] )->name('projects.restore');
 Route::delete('/admin/projects/deleted/{project}', [ProjectController::class, 'hardDelete'] )->name('projects.hardDelete');
