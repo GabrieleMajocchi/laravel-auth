@@ -40,7 +40,7 @@
                                 {{ $project->date }}
                             </td>
                             <td>
-                                <form class="d-inline-block me-2" action="{{ route('projects.restore', $project) }}" method="POST">
+                                <form class="d-inline-block me-2" action="{{ route('projects.restore', $project->id) }}" method="POST">
                                     @csrf
                                     @method('POST')
 
@@ -48,7 +48,7 @@
                                         Restore
                                     </button>
                                 </form>
-                                <form class="d-inline-block" action="{{ route('projects.hardDelete', $project) }}" method="POST">
+                                <form class="d-inline-block" action="{{ route('projects.hardDelete', $project->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
 
