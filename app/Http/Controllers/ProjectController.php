@@ -14,7 +14,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::paginate(10);
+
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -46,7 +47,7 @@ class ProjectController extends Controller
         $newProject->link = $data['link'];
         $newProject->date = date('y-m-d');
         $newProject->save();
-        return redirect()->route('projects.show', $newProject->id);
+        return redirect()->route('projects.show', $newProject->id)->with('stored', $newProject->title);
     }
 
     /**
@@ -55,6 +56,7 @@ class ProjectController extends Controller
     public function show(string $id)
     {
         $project = Project::findOrFail($id);
+
         return view('admin.projects.show', compact('project'));
     }
 
@@ -64,6 +66,7 @@ class ProjectController extends Controller
     public function edit(string $id)
     {
         $project = Project::findOrFail($id);
+
         return view('admin.projects.edit', compact('project'));
     }
 
@@ -87,8 +90,10 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return redirect()->route("projects.index")->with("deleted", $project->title);
     }
 }
