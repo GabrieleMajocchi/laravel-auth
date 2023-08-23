@@ -5,9 +5,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-around">
-    @guest
-        <h1>You must be logged first!</h1>
-    @else
+    @auth
         <div class="col-8">
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -67,7 +65,9 @@
             <br>
             <a href="{{ route('projects.index') }}" class="btn btn-secondary mt-6 d-block col-1">Back to list</a>
         </form>
-    @endguest
+    @else
+    <h1 class="text-center">You must be logged first!</h1>
+    @endauth
     </div>
 </div>
 

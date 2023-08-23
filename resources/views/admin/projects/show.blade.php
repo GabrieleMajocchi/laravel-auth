@@ -4,9 +4,7 @@
 
 @section("content")
     <main>
-        @guest
-            <h1>You must be logged first!</h1>
-        @else
+        @auth
         <div class="container">
             @if (session('stored'))
                 <div class="col-12">
@@ -39,6 +37,8 @@
             </p>
             <a href="{{ route('projects.index') }}" class="btn btn-secondary mt-6 d-block col-1">Back to list</a>
         </div>
-        @endguest
+        @else
+        <h1 class="text-center">You must be logged first!</h1>
+        @endauth
     </main>
 @endsection

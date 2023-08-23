@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="container">
+        @auth
         <div class="row justify-content-around">
             <div class="col-8">
                 @if ($errors->any())
@@ -22,7 +23,7 @@
                 </h1>
             </div>
 
-            <form class="col-8" action="{{ route('projects.update', $project->id) }}" method="POST">
+            <form class="col-8" action="{{ route('projects.update', $project) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -68,5 +69,8 @@
                 <a href="{{ route('projects.index') }}" class="btn btn-secondary mt-6 d-block col-2">Back to list</a>
             </form>
         </div>
+        @else
+        <h1 class="text-center">You must be logged first!</h1>
+        @endauth
     </div>
 @endsection

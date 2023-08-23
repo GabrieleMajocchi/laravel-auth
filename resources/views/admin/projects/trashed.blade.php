@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+    @auth
     <div class="row justify-content-center">
         <div class="col-12">
 
@@ -67,5 +68,8 @@
 
         </div>
     </div>
+    @else
+        <h1 class="text-center">You must be logged first!</h1>
+    @endauth
 </div>
 @endsection

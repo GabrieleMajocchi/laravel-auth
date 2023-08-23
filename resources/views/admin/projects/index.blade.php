@@ -5,9 +5,7 @@
 @section('content')
     <div class="container-fluid px-5">
 
-    @guest
-        <h1>You must be logged first!</h1>
-    @else
+    @auth
         <div class="row">
             <div class="col-12">
                 <h1 class="m-3 text-center">
@@ -102,7 +100,9 @@
 
             </div>
         </div>
-    @endguest
+    @else
+        <h1 class="text-center">You must be logged first!</h1>
+    @endauth
     </div>
 @endsection
 
