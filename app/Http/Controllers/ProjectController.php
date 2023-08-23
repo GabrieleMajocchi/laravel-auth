@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -68,9 +70,18 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        $request->validate([
+            'title'=> ['required', 'min:3', 'max:255', Rule::unique('projects')->ignore($project->id)],
+            'description'=> ['required', 'min:3', 'max:255'],
+            'lang'=> ['required', 'min:3', 'max:255'],
+            'link'=> ['required', 'min:5', 'max:255', Rule::unique('projects')->ignore($project->id)],
+        ]);
+        $data = $request->all();
+        $project->update($data);
+
+        return redirect()->route("projects.show", $project->id)->with("updated", $project->title);
     }
 
     /**
