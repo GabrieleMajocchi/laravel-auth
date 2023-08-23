@@ -103,4 +103,12 @@ class ProjectController extends Controller
 
         return view('admin.projects.trashed', compact('projects'));
     }
+
+    public function restore($id)
+    {
+        $project = Project::onlyTrashed()->findOrFail($id);
+        $project->restore();
+
+        return redirect()->route('projects.index')->with('restored', $project->title);
+    }
 }
