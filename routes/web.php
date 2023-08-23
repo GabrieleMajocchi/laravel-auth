@@ -21,5 +21,8 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\Guest\HomeController::class, 'index'])->name('guest.home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.index');
+Route::get('/admin/projects/deleted', [ProjectController::class, 'trashed'] )->name('projects.trashed');
+Route::post('/admin/projects/deleted/{project}', [ProjectController::class, 'restore'] )->name('projects.restore');
+Route::delete('/admin/projects/deleted/{project}', [ProjectController::class, 'hardDelete'] )->name('projects.hardDelete');
 
 Route::resource('projects', ProjectController::class);
