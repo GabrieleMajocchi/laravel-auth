@@ -42,6 +42,7 @@
                 </div>
             @endif
             <a href="{{ route('projects.create') }}" class="btn btn-success">Add a new Project</a>
+            <a href="{{ route('projects.trashed') }}" class="btn btn-danger">Check deleted Projects</a>
             <div class="col-12">
                 <table class="table table-striped table-hover text-center table-bordered">
                     <thead>
@@ -84,8 +85,7 @@
                                     <a class="btn btn-sm btn-warning me-2"
                                         href="{{ route('projects.edit', $project->id) }}">Edit
                                     </a>
-                                    <form action="{{ route('projects.destroy', $project->id) }}"
-                                        class="d-inline form-deleter" method="POST">
+                                    <form action="{{ route('projects.destroy', $project) }}" class="d-inline form-deleter" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger me-2">
@@ -97,6 +97,9 @@
                         @endforeach
                     </tbody>
                 </table>
+
+            {{ $projects->links() }}
+
             </div>
         </div>
     @endguest
