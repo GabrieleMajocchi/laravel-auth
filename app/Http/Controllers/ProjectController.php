@@ -104,6 +104,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if (str_starts_with($project->image, 'uploads')){
+            $deletedImagePath = 'uploads/projects/deleted/' . basename($project->image);
+            Storage::move($project->image, $deletedImagePath);
+        }
         $project->delete();
 
         return redirect()->route("projects.index")->with("deleted", $project->title);
@@ -119,6 +123,13 @@ class ProjectController extends Controller
     public function restore($id)
     {
         $project = Project::onlyTrashed()->findOrFail($id);
+
+        if (str_starts_with($project->image, 'uploads')){
+            $deletedImagePath = 'uploads/projects/deleted/' . basename($project->image);
+            $restoredImagePath = 'uploads/projects/' . basename($project->image);
+            Storage::move($deletedImagePath, $restoredImagePath);
+        }
+
         $project->restore();
 
         return redirect()->route('projects.index')->with('restored', $project->title);
@@ -127,7 +138,10 @@ class ProjectController extends Controller
     public function hardDelete($id)
     {
         $project = Project::onlyTrashed()->findOrFail($id);
-        Storage::delete($project->image);
+        if (str_starts_with($project->image, 'uploads')){
+            $deletedImagePath = 'uploads/projects/deleted/' . basename($project->image);
+            Storage::delete($deletedImagePath);
+        }
         $project->forceDelete();
 
         return redirect()->route("projects.index")->with("hardDelete", $project->title);
