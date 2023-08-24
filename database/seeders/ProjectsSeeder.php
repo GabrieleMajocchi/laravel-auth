@@ -18,6 +18,7 @@ class ProjectsSeeder extends Seeder
             $newProject->lang = $faker->randomElement(['PHP', 'JavaScript', 'Vue', 'Laravel']);
             $newProject->link = $faker->url();
             $newProject->date = $faker->dateTimeBetween('2023-03-01', 'now');
+            $newProject->image = $faker->imageUrl(480, 360, 'post', true, 'posts', true, 'png');
             $newProject->save();
         }
     }
