@@ -37,7 +37,7 @@
                     <label for="description" class="form-label">
                         Description:
                     </label>
-                    <input type="text" class="form-control" id="description" name="description" value="{{$project->description}}">
+                    <textarea class="form-control" id="description" rows="7" name="description" value="{{$project->description}}">{{ old('description', '') }}</textarea>
                 </div>
                 <div class="mb-3">
                     <label for="lang" class="form-label">
