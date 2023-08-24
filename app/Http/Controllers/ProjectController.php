@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -32,20 +33,23 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'title'=> 'required|unique:projects|min:3|max:255',
             'description'=> 'required|min:3|max:255',
             'lang'=> 'required|min:3|max:255',
-            'link'=> 'required|unique:projects|min:5|max:255'
+            'link'=> 'required|unique:projects|min:5|max:255',
+            'image' => ['image', 'max:512']
         ]);
+
+        if ($request->hasFile('image')){
+            $img_path = Storage::put('uploads/projects', $request['image']);
+            $data['image'] = $img_path;
+        }
+
         $data = $request->all();
 
-        $newProject = new Project();
-        $newProject->title = $data['title'];
-        $newProject->description = $data['description'];
-        $newProject->lang = $data['lang'];
-        $newProject->link = $data['link'];
-        $newProject->date = date('y-m-d');
+        $newProject = Project::create($data);
         $newProject->save();
         return redirect()->route('projects.show', $newProject->id)->with('stored', $newProject->title);
     }
@@ -80,7 +84,15 @@ class ProjectController extends Controller
             'description'=> ['required', 'min:3', 'max:255'],
             'lang'=> ['required', 'min:3', 'max:255'],
             'link'=> ['required', 'min:5', 'max:255', Rule::unique('projects')->ignore($project->id)],
+            'image' => ['image', 'max:512']
         ]);
+
+        if ($request->hasFile('image')){
+            Storage::delete($project->image);
+            $img_path = Storage::put('uploads/projects', $request['image']);
+            $data['image'] = $img_path;
+        }
+
         $data = $request->all();
         $project->update($data);
 
@@ -115,6 +127,7 @@ class ProjectController extends Controller
     public function hardDelete($id)
     {
         $project = Project::onlyTrashed()->findOrFail($id);
+        Storage::delete($project->image);
         $project->forceDelete();
 
         return redirect()->route("projects.index")->with("hardDelete", $project->title);
