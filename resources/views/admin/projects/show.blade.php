@@ -35,6 +35,13 @@
             <p>
                 Date: {{ $project->date }}
             </p>
+            <p>
+                @if (str_starts_with($project->image, 'http' ))
+                    <img src="{{ $project->image }}" alt="{{ $project->title }}">
+                @else
+                    <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
+                @endif
+            </p>
             <a href="{{ route('projects.index') }}" class="btn btn-secondary mt-6 d-block col-1">Back to list</a>
         </div>
         @else
