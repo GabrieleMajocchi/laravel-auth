@@ -33,8 +33,7 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-        $request->validate([
+        $data = $request->validate([
             'title'=> 'required|unique:projects|min:3|max:255',
             'description'=> 'required|min:3|max:255',
             'lang'=> 'required|min:3|max:255',
@@ -42,12 +41,12 @@ class ProjectController extends Controller
             'image' => ['image', 'max:512']
         ]);
 
+        $data['date'] = $request->date;
+
         if ($request->hasFile('image')){
             $img_path = Storage::put('uploads/projects', $request['image']);
             $data['image'] = $img_path;
         }
-
-        $data = $request->all();
 
         $newProject = Project::create($data);
         $newProject->save();
@@ -79,7 +78,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $request->validate([
+        $data = $request->validate([
             'title'=> ['required', 'min:3', 'max:255', Rule::unique('projects')->ignore($project->id)],
             'description'=> ['required', 'min:3', 'max:255'],
             'lang'=> ['required', 'min:3', 'max:255'],
@@ -87,13 +86,14 @@ class ProjectController extends Controller
             'image' => ['image', 'max:512']
         ]);
 
+        $data['date'] = $request->date;
+
         if ($request->hasFile('image')){
             Storage::delete($project->image);
             $img_path = Storage::put('uploads/projects', $request['image']);
             $data['image'] = $img_path;
         }
 
-        $data = $request->all();
         $project->update($data);
 
         return redirect()->route("projects.show", $project->id)->with("updated", $project->title);
