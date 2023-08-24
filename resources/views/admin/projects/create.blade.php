@@ -23,37 +23,45 @@
             </h1>
         </div>
 
-        <form action="{{ route('projects.store') }}" method="POST">
+        <form action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">
                     Project Name:
                 </label>
-                <input type="text" class="form-control" id="title" name="title">
+                <input type="text" class="form-control" id="title" name="title" value="{{ old('title', '') }}">
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">
                     Description:
                 </label>
-                <input type="text" class="form-control" id="description" name="description">
+                <textarea class="form-control" id="description" rows="7" name="description">
+                    {{ old('description', '') }}
+                </textarea>
             </div>
             <div class="mb-3">
                 <label for="lang" class="form-label">
                     Programming Language:
                 </label>
-                <input type="text" class="form-control" id="lang" name="lang">
+                <input type="text" class="form-control" id="lang" name="lang"  value="{{ old('lang', '') }}">
             </div>
             <div class="mb-3">
                 <label for="link" class="form-label">
                     Link:
                 </label>
-                <input type="text" class="form-control" id="link" name="link">
+                <input type="text" class="form-control" id="link" name="link"  value="{{ old('link', '') }}">
             </div>
             <div class="mb-3">
                 <label for="date" class="form-label">
                     Date:
                 </label>
-                <input type="date" class="form-control" id="date" name="date">
+                <input type="date" class="form-control" id="date" name="date"  value="{{ old('date', '') }}">
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">
+                    Image:
+                </label>
+                <input type="file" class="form-control" id="image" name="image" placeholder="Upload your image" value="{{ old('image', '') }}">
             </div>
             <button type="submit" class="btn btn-primary">
                 Add new Project
